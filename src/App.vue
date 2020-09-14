@@ -1,17 +1,45 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <hello-world2 :columns="columns" :items="dataSource"></hello-world2>
+    <button @click="add">Click Add</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld2 from './components/HelloWorld2.vue'
+import faker from "faker";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld2
+  },
+  data() {
+    const source = []
+    for (let i = 0; i < 50; i++) {
+      source.push({
+        id: Math.random().toString(),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        phoneNumber: faker.phone.phoneNumber(),
+        fileName: faker.system.fileName(),
+        ip: faker.internet.ip()
+      });
+    }
+
+    return {
+      msg: "Welcome to Your Vue.js App",
+      dataSource: source,
+      columns: [
+        "id", "firstName", "lastName", "phoneNumber", "fileName", "ip"
+      ]
+    }
+  },
+  methods: {
+    add() {
+      const index = Math.floor(Math.random() * 50);
+      this.dataSource[49].firstName = faker.name.firstName();
+    }
   }
 }
 </script>
